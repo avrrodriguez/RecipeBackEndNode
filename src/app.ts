@@ -1,5 +1,5 @@
 import cors from "cors";
-import express, { Application } from "express";
+import express, { Application, Request, Response } from "express";
 import { HttpResponse } from "./domain/response";
 import { Code } from "./enum/code_enum";
 import { Status } from "./enum/status_enum";
@@ -29,7 +29,7 @@ export class App {
 
   routes(): void {
     this.app.use("/recipes", recipesRoutes);
-    this.app.get("/", (request, response) => response.status(Code.OK).send(new HttpResponse(Code.OK, Status.OK, "Request Received")));
-    this.app.all("*", (request, response) => response.status(Code.NOT_FOUND).send(new HttpResponse(Code.NOT_FOUND, Status.NOT_FOUND, this.ROUTE_NOT_FOUND)));
+    this.app.get("/", (request: Request, response: Response) => response.status(Code.OK).send(new HttpResponse(Code.OK, Status.OK, "Request Received")));
+    this.app.all("*", (request: Request, response: Response) => response.status(Code.NOT_FOUND).send(new HttpResponse(Code.NOT_FOUND, Status.NOT_FOUND, this.ROUTE_NOT_FOUND)));
   }
 }
