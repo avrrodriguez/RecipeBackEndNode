@@ -9,12 +9,12 @@ import { FieldPacket, ResultSetHeader, RowDataPacket, OkPacket } from "mysql2";
 
 type ResultSet = [RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader, FieldPacket[]];
 
-export const getPatients = async (request: Request, response: Response): Promise<Response<Recipe[]>> => {
+export const getRecipes = async (request: Request, response: Response): Promise<Response<Recipe[]>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
 
   try {
     const pool = await connection();
-    const result: ResultSet = await pool.query(QUERY.SELECT_PATIENTS);
+    const result: ResultSet = await pool.query(QUERY.SELECT_RECIPES);
     
     return response.status(Code.OK)
         .send(new HttpResponse(Code.OK, Status.OK, 'Recipe Received', result[0]));
@@ -27,12 +27,12 @@ export const getPatients = async (request: Request, response: Response): Promise
   }
 };
 
-export const getPatient = async (request: Request, response: Response): Promise<Response<Recipe>> => {
+export const getRecipe = async (request: Request, response: Response): Promise<Response<Recipe>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
 
   try {
     const pool = await connection();
-    const result: ResultSet = await pool.query(QUERY.SELECT_PATIENT, [request.params.recipeId]);
+    const result: ResultSet = await pool.query(QUERY.SELECT_RECIPE, [request.params.recipeId]);
     
     if ((result[0] as Array<ResultSet>).length > 0){
       return response.status(Code.OK)
@@ -50,14 +50,14 @@ export const getPatient = async (request: Request, response: Response): Promise<
   }
 };
 
-export const createPatient = async (request: Request, response: Response): Promise<Response<Recipe>> => {
+export const createRecipe = async (request: Request, response: Response): Promise<Response<Recipe>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
 
   let recipe: Recipe = { ...request.body};
 
   try {
     const pool = await connection();
-    const result: ResultSet = await pool.query(QUERY.CREATE_PATIENTS, Object.values(recipe));
+    const result: ResultSet = await pool.query(QUERY.CREATE_RECIPE, Object.values(recipe));
     recipe = {id: (result[0] as ResultSetHeader).insertId, ...request.body };
 
     return response.status(Code.CREATED)
@@ -71,17 +71,17 @@ export const createPatient = async (request: Request, response: Response): Promi
   }
 };
 
-export const updatePatient = async (request: Request, response: Response): Promise<Response<Recipe>> => {
+export const updateRecipe = async (request: Request, response: Response): Promise<Response<Recipe>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
 
   let recipe: Recipe = { ...request.body };
 
   try {
     const pool = await connection();
-    const result: ResultSet = await pool.query(QUERY.SELECT_PATIENT, [request.params.recipeId]);
+    const result: ResultSet = await pool.query(QUERY.SELECT_RECIPE, [request.params.recipeId]);
     
     if ((result[0] as Array<ResultSet>).length > 0){
-      const result: ResultSet = await pool.query(QUERY.UPDATE_PATIENTS, [...Object.values(recipe), request.params.recipeId]);
+      const result: ResultSet = await pool.query(QUERY.UPDATE_RECIPE, [...Object.values(recipe), request.params.recipeId]);
       return response.status(Code.OK)
         .send(new HttpResponse(Code.OK, Status.OK, 'Recipe updated', {...recipe, id: request.params.recipeId}));
     } else {
@@ -97,15 +97,16 @@ export const updatePatient = async (request: Request, response: Response): Promi
   }
 };
 
-export const deletePatient = async (request: Request, response: Response): Promise<Response<Recipe>> => {
+export const deleteRecipe = async (request: Request, response: Response): Promise<Response<Recipe>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
 
   try {
     const pool = await connection();
-    const result: ResultSet = await pool.query(QUERY.SELECT_PATIENT, [request.params.recipeId]);
+    const result: ResultSet = await pool.query(QUERY.SELECT_RECIPE, [request.params.recipeId]);
     
     if ((result[0] as Array<ResultSet>).length > 0){
-      const result: ResultSet = await pool.query(QUERY.DELETE_PATIENTS, request.params.recipeId);
+      const result: ResultSet = await pool.query(QUERY.DELETE_RECIPE, request.params.recipeId);
+      console.log(`recipes controller query result: ${result}`)
       return response.status(Code.OK)
         .send(new HttpResponse(Code.OK, Status.OK, 'Recipe deleted'));
     } else {

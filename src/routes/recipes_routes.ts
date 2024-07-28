@@ -1,5 +1,15 @@
 import { Router } from 'express';
+import { getRecipes, updateRecipe, createRecipe, deleteRecipe, getRecipe } from '../controller/recipes_controller';
 
-const recipesRoutes = Router();
+const recipeRoutes = Router();
 
-export default recipesRoutes;
+recipeRoutes.route("/")
+  .get(getRecipes)
+  .post(createRecipe);
+
+recipeRoutes.route("/:recipeId")
+  .get(getRecipe)
+  .put(updateRecipe)
+  .delete(deleteRecipe)
+
+export default recipeRoutes;
