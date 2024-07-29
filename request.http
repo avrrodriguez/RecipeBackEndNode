@@ -1,0 +1,12 @@
+### Recipes Index Action
+GET http://localhost:3000/recipes
+
+### Recipes Create Action
+POST http://localhost:3000/recipes
+Content-Type: application/json
+
+{
+  "name": "fish",
+  "cooking_time": 3,
+  "steps": "something something"
+}
