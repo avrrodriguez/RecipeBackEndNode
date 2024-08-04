@@ -7,7 +7,7 @@ recipeRoutes.route("/")
   .get(getRecipes)
   .post(createRecipe);
 
-recipeRoutes.route("/:recipeId")
+recipeRoutes.route("/f:recipeId")
   .get(getRecipe)
   .put(updateRecipe)
   .delete(deleteRecipe)
