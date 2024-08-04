@@ -3,11 +3,11 @@ import { getRecipes, updateRecipe, createRecipe, deleteRecipe, getRecipe } from 
 
 const recipeRoutes = Router();
 
-recipeRoutes.route("/")
+recipeRoutes.route("/recipes")
   .get(getRecipes)
   .post(createRecipe);
 
-recipeRoutes.route("/f:recipeId")
+recipeRoutes.route("/recipes/:recipeId")
   .get(getRecipe)
   .put(updateRecipe)
   .delete(deleteRecipe)
