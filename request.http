@@ -10,3 +10,18 @@ Content-Type: application/json
   "cooking_time": 3,
   "steps": "something something"
 }
+
+### All User Index Action
+GET http://localhost:3000/users
+
+### User Index Action
+GET http://localhost:3000/users/2
+
+### User Create Action
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "username 2",
+  "pasword": "password"
+}
