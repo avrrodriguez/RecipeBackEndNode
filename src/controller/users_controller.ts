@@ -9,24 +9,6 @@ import { FieldPacket, ResultSetHeader, RowDataPacket, OkPacket } from "mysql2";
 
 type ResultSet = [RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader, FieldPacket[]];
 
-export const getUsers = async (request: Request, response: Response): Promise<Response<User[]>> => {
-  console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
-
-  try {
-    const pool = await connection();
-    const result: ResultSet = await pool.query(QUERY.SELECT_USERS);
-    
-    return response.status(Code.OK)
-        .send(new HttpResponse(Code.OK, Status.OK, 'Recipe Received', result[0]));
-
-  } catch (error: unknown) {
-    console.error(error);
-
-    return response.status(Code.INTERNAL_SERVER_ERROR)
-        .send(new HttpResponse(Code.INTERNAL_SERVER_ERROR, Status.INTERNAL_SERVER_ERROR, "An error occurred"));
-  }
-};
-
 export const getUser = async (request: Request, response: Response): Promise<Response<User>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
 
