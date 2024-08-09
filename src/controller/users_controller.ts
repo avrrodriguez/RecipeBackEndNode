@@ -18,10 +18,10 @@ export const getUser = async (request: Request, response: Response): Promise<Res
     
     if ((result[0] as Array<ResultSet>).length > 0){
       return response.status(Code.OK)
-        .send(new HttpResponse(Code.OK, Status.OK, 'Recipe Received', result[0]));
+        .send(new HttpResponse(Code.OK, Status.OK, 'User Received', result[0]));
     } else {
       return response.status(Code.NOT_FOUND)
-        .send(new HttpResponse(Code.NOT_FOUND, Status.NOT_FOUND, 'Recipe not found'));
+        .send(new HttpResponse(Code.NOT_FOUND, Status.NOT_FOUND, 'User not found'));
     }
 
   } catch (error: unknown) {

@@ -11,9 +11,6 @@ Content-Type: application/json
   "steps": "something something"
 }
 
-### All User Index Action
-GET http://localhost:3000/users
-
 ### User Index Action
 GET http://localhost:3000/users/2
 
@@ -25,3 +22,14 @@ Content-Type: application/json
   "name": "username 2",
   "pasword": "password"
 }
+
+### User Signup
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+  "name": "username 3",
+  "password": "password"
+}
+
+### User Login
