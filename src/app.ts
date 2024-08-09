@@ -5,6 +5,7 @@ import { Code } from "./enum/code_enum";
 import { Status } from "./enum/status_enum";
 import recipesRoutes from "./routes/recipes_routes";
 import userRoutes from "./routes/users_routes";
+import authRoutes from "./routes/auth_routes";
 
 export class App {
   private readonly app: Application;
@@ -33,6 +34,9 @@ export class App {
     this.app.get("/recipes", (request: Request, response: Response) => response.status(Code.OK).send(new HttpResponse(Code.OK, Status.OK, "Request Received")));
 
     this.app.use("/", userRoutes);
+    this.app.get("/users", (request: Request, response: Response) => response.status(Code.OK).send(new HttpResponse(Code.OK, Status.OK, "Request Received")));
+
+    this.app.use("/", authRoutes);
     this.app.get("/users", (request: Request, response: Response) => response.status(Code.OK).send(new HttpResponse(Code.OK, Status.OK, "Request Received")));
 
     this.app.all("*", (request: Request, response: Response) => response.status(Code.NOT_FOUND).send(new HttpResponse(Code.NOT_FOUND, Status.NOT_FOUND, this.ROUTE_NOT_FOUND)));
