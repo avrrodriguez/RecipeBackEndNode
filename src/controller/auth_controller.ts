@@ -9,11 +9,23 @@ import { Status } from "../enum/status_enum";
 import { FieldPacket, ResultSetHeader, RowDataPacket, OkPacket } from "mysql2";
 import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 type ResultSet = [RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader, FieldPacket[]];
 
+
+dotenv.config();
 export const signup = async (request: Request, response: Response): Promise<Response<Jwt>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
+
+  let jwt_key: any;
+
+  if (process.env.JWT_KEY) {
+    jwt_key = process.env.JWT_KEY;
+  } else {
+    return response.status(Code.INTERNAL_SERVER_ERROR)
+        .send(new HttpResponse(Code.INTERNAL_SERVER_ERROR, Status.INTERNAL_SERVER_ERROR, "An error occurred setting jwt key"));
+  }
 
   try {
     let pool = await connection();
@@ -30,7 +42,7 @@ export const signup = async (request: Request, response: Response): Promise<Resp
 
       let newUser: User = { id: (createUser[0] as ResultSetHeader).insertId, ...request.body };
 
-      let token: String = jwt.sign({_id: newUser.id }, "secretKey123", {
+      let token: String = jwt.sign({_id: newUser.id }, jwt_key, {
         expiresIn: '1d'
       });
 
