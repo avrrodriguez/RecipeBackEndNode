@@ -9,23 +9,14 @@ import { Status } from "../enum/status_enum";
 import { FieldPacket, ResultSetHeader, RowDataPacket, OkPacket } from "mysql2";
 import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+import JwtKey from "../helper/jwt_key";
 
 type ResultSet = [RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader, FieldPacket[]];
 
+let jwt_key = JwtKey();
 
-dotenv.config();
 export const signup = async (request: Request, response: Response): Promise<Response<Jwt>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
-
-  let jwt_key: any;
-
-  if (process.env.JWT_KEY) {
-    jwt_key = process.env.JWT_KEY;
-  } else {
-    return response.status(Code.INTERNAL_SERVER_ERROR)
-        .send(new HttpResponse(Code.INTERNAL_SERVER_ERROR, Status.INTERNAL_SERVER_ERROR, "An error occurred setting jwt key"));
-  }
 
   try {
     let pool = await connection();
@@ -75,10 +66,10 @@ export const login = async (request: Request, response: Response): Promise<Respo
 
     if (!validPassword) {
       return response.status(Code.BAD_REQUEST)
-        .send(new HttpResponse(Code.BAD_REQUEST, Status.BAD_REQUEST, "Not a valid password or user name"))
+        .send(new HttpResponse(Code.BAD_REQUEST, Status.BAD_REQUEST, "Not a user name or passowrd do not match."))
     }
 
-    let token: String = jwt.sign({_id: user.id }, "secretKey123", {
+    let token: String = jwt.sign({_id: user.id }, jwt_key, {
       expiresIn: '1d'
     });
 
