@@ -1,7 +1,16 @@
-### Recipes Index Action
+### All Recipes Index Action
+GET http://localhost:3000/allrecipes
+
+### All Ingredients Index Action
+GET http://localhost:3000/ingredients
+
+### All Cooking Styles Index Action
+GET http://localhost:3000/cookingstyles
+
+### User Recipes Index Action
 GET http://localhost:3000/recipes
 
-### Recipes Create Action
+### User Recipes Create Action
 POST http://localhost:3000/recipes
 Content-Type: application/json
 

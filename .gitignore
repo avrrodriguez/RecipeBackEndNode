@@ -18,6 +18,8 @@ dbSampleData
 
 5000;
 
+*.http
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

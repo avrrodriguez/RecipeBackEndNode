@@ -1,20 +1,22 @@
 import { Router } from 'express';
-import { getRecipes, updateRecipe, createRecipe, deleteRecipe, getRecipe } from '../controller/recipes_controller';
+import { getUserRecipes, updateUserRecipe, createUserRecipe, deleteUserRecipe, getUserRecipe, getAllRecipes } from '../controller/recipes_controller';
 import { validate_auth } from "../auth/validate_auth";
 
 const recipeRoutes = Router();
 
 // routes for getting recipes specific to users
 recipeRoutes.route("/recipes")
-  .get(validate_auth, getRecipes)
-  .post(validate_auth, createRecipe);
-
+  .get(validate_auth, getUserRecipes)
+  .post(validate_auth, createUserRecipe);
+  
 recipeRoutes.route("/recipes/:recipeId")
-  .get(validate_auth, getRecipe)
-  .put(validate_auth ,updateRecipe)
-  .delete(validate_auth, deleteRecipe)
+  .get(validate_auth, getUserRecipe)
+  .put(validate_auth, updateUserRecipe)
+  .delete(validate_auth, deleteUserRecipe);
 
 // routes for getting recipes for all users
-recipeRoutes.route("/recipes/show")
+recipeRoutes.route("/allrecipes/")
+    .get(getAllRecipes);
+    
 
 export default recipeRoutes;
