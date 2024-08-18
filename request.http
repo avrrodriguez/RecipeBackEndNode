@@ -1,3 +1,5 @@
+@jwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyMzk1Mzg2OCwiZXhwIjoxNzI0MDQwMjY4fQ.652I6j8Umj7v5eYxOk4WUa2YxRYHAmnmsZ4riWj64T8
+
 ### All Recipes Index Action
 GET http://localhost:3000/allrecipes
 
@@ -12,12 +14,11 @@ GET http://localhost:3000/recipes
 
 ### User Recipes Create Action
 POST http://localhost:3000/recipes
+Authorization: Bearer {{jwt}}
 Content-Type: application/json
 
 {
-  "name": "fish",
-  "cooking_time": 3,
-  "steps": "something something"
+  "user_id": 1
 }
 
 ### User Signup

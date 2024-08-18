@@ -53,15 +53,17 @@ export const getUserRecipe = async (request: Request, response: Response): Promi
 export const createUserRecipe = async (request: Request, response: Response): Promise<Response<Recipe>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
 
+  console.info(`request body info: ${request.body}`);
+
   let recipe: Recipe = { ...request.body};
 
   try {
     const pool = await connection();
-    const result: ResultSet = await pool.query(QUERY.CREATE_RECIPE, Object.values(recipe));
-    recipe = {id: (result[0] as ResultSetHeader).insertId, ...request.body };
+    // const result: ResultSet = await pool.query(QUERY.CREATE_RECIPE, Object.values(recipe));
+    // recipe = {id: (result[0] as ResultSetHeader).insertId, ...request.body };
 
     return response.status(Code.CREATED)
-      .send(new HttpResponse(Code.CREATED, Status.CREATED, 'Recipe Received', result[0]));
+      .send(new HttpResponse(Code.CREATED, Status.CREATED, 'Recipe Received'/*, result[0]*/));
 
   } catch (error: unknown) {
     console.error(error);
