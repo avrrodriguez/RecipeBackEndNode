@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 export default function JwtKey() {
 
-  let jwt_key: any;
+  let jwt_key;
 
   if (process.env.JWT_KEY) {
     jwt_key = process.env.JWT_KEY;

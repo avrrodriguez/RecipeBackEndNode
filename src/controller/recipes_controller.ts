@@ -61,7 +61,7 @@ export const createUserRecipe = async (request: Request, response: Response): Pr
     recipe = {id: (result[0] as ResultSetHeader).insertId, ...request.body };
 
     return response.status(Code.CREATED)
-      .send(new HttpResponse(Code.CREATED, Status.CREATED, 'Recipe Received', result[0]));
+      .send(new HttpResponse(Code.CREATED, Status.CREATED, 'Recipe Created', result[0]));
 
   } catch (error: unknown) {
     console.error(error);
