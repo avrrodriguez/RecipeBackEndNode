@@ -31,11 +31,11 @@ export class App {
   }
 
   routes(): void {
-    this.app.use("/", recipesRoutes);
-    this.app.get("/recipes", (request: Request, response: Response) => response.status(Code.OK).send(new HttpResponse(Code.OK, Status.OK, "Request Received")));
-
     this.app.use("/", authRoutes);
     this.app.get("/users", (request: Request, response: Response) => response.status(Code.OK).send(new HttpResponse(Code.OK, Status.OK, "Request Received")));
+
+    this.app.use("/", recipesRoutes);
+    this.app.get("/recipes", (request: Request, response: Response) => response.status(Code.OK).send(new HttpResponse(Code.OK, Status.OK, "Request Received")));
 
     this.app.use("/", ingredientsRoutes);
     this.app.get("/ingredients", (request: Request, response: Response) => response.status(Code.OK).send(new HttpResponse(Code.OK, Status.OK, "Request Received")));
