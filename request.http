@@ -1,4 +1,4 @@
-@jwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyMzk1Mzg2OCwiZXhwIjoxNzI0MDQwMjY4fQ.652I6j8Umj7v5eYxOk4WUa2YxRYHAmnmsZ4riWj64T8
+@jwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNDAxMjQ5OSwiZXhwIjoxNzI0MDk4ODk5fQ.yTXO2oWZAC3OQ3w4XjkZ7T8wIDFz9JYuLLCi1RKQEsY
 
 ### All Recipes Index Action
 GET http://localhost:3000/allrecipes

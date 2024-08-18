@@ -5,7 +5,7 @@ import { Code } from "../enum/code_enum";
 import { Status } from "../enum/status_enum";
 import { HttpResponse } from "../domain/response";
 
-export const validate_auth = async (request: Request, response: Response): Promise<Response | void> => {
+export const validate_auth = async (request: Request, response: Response, next: any): Promise<Response | void> => {
   let jwt_token = request.headers.authorization?.split(" ")[1];
   let user_token: string | undefined = jwt_token;
 
@@ -15,8 +15,7 @@ export const validate_auth = async (request: Request, response: Response): Promi
         return response.status(Code.BAD_REQUEST)
           .send(new HttpResponse(Code.BAD_REQUEST, Status.BAD_REQUEST, "Not Authorized"))
       } else {
-        console.log("user token verified");
-        return;
+        next()
       }
     })
   } else {
