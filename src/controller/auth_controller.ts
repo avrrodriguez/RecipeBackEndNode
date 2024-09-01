@@ -49,7 +49,10 @@ export const signup = async (request: Request, response: Response): Promise<Resp
 }
 
 export const login = async (request: Request, response: Response): Promise<Response<User>> => {
+  console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
+
   try {
+    console.log(request.body);
     let { name, password } = request.body;
     
     let pool = await connection();
@@ -66,7 +69,7 @@ export const login = async (request: Request, response: Response): Promise<Respo
 
     if (!validPassword) {
       return response.status(Code.BAD_REQUEST)
-        .send(new HttpResponse(Code.BAD_REQUEST, Status.BAD_REQUEST, "Not a user name or passowrd do not match."))
+        .send(new HttpResponse(Code.BAD_REQUEST, Status.BAD_REQUEST, "Not a user name or password do not match."))
     }
 
     let token: String = jwt.sign({_id: user.id }, jwt_key, {

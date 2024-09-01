@@ -7,6 +7,6 @@ authRoutes.route("/signup")
   .post(signup)
 
 authRoutes.route("/login")
-  .get(login)
+  .post(login)
 
 export default authRoutes;
