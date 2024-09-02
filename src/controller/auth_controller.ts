@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { query, Request, Response } from "express";
 import { connection } from "../database_config/mysql_config";
 import { Jwt } from "../interface/jwt";
 import { User } from "../interface/user";
@@ -52,13 +52,13 @@ export const login = async (request: Request, response: Response): Promise<Respo
   console.info(`[${new Date().toLocaleString()}] Incoming ${request.method}${request.originalUrl} Request from ${request.rawHeaders[0]} ${request.rawHeaders[1]}`);
 
   try {
-    console.log(request.body);
     let { name, password } = request.body;
     
     let pool = await connection();
     let queryResult: ResultSet = await pool.query(QUERY.SELECT_USER_NAME, [name]);
+    console.log(Object.keys(queryResult[0]).length == 0, !queryResult, !queryResult[0]);
 
-    if (!queryResult) {
+    if (Object.keys(queryResult[0]).length == 0) {
       return response.status(Code.BAD_REQUEST)
         .send(new HttpResponse(Code.BAD_REQUEST, Status.BAD_REQUEST, "User does not exist."))
     }
