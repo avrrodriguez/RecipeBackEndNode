@@ -56,7 +56,6 @@ export const login = async (request: Request, response: Response): Promise<Respo
     
     let pool = await connection();
     let queryResult: ResultSet = await pool.query(QUERY.SELECT_USER_NAME, [name]);
-    console.log(Object.keys(queryResult[0]).length == 0, !queryResult, !queryResult[0]);
 
     if (Object.keys(queryResult[0]).length == 0) {
       return response.status(Code.BAD_REQUEST)
